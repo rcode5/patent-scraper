@@ -1,13 +1,10 @@
-javascript:
-  /* This little bit of silliness is here to ensure our js feature specs are working. Remove at will. */
-  $(document).ready(function() {
-    $('.jumbotron p:last').after("<p>Enjoy!</p>")
-  });
+.row
+  .col-xs-10.col-xs-offset-1.col-md-6.col-xs-offset-3
+    = form_tag "/scrape" do
+      .form-group
+        label.control-label for="url" URL
+        input.form-control name="url" value="http://patft.uspto.gov/netacgi/nph-Parser?Sect1=PTO2&Sect2=HITOFF&p=1&u=%2Fnetahtml%2FPTO%2Fsearch-bool.html&r=0&f=S&l=50&TERM1=symyx&FIELD1=ASNM&co1=AND&TERM2=&FIELD2=&d=PTTX"
+      .actions
+        input type="submit" class="btn btn-primary"
 
-.jumbotron
-  h1 Hello, world!
-  br
-  p Welcome to your newly generated rails application...
-  p Meander around the code to see what's been done for you. Many small, and a few not-so-small, customizations have been made.
-  p Custom generator templates create views that are bootstrap compatible and specs that are factory-aware and follow best practices.
-  p Your application is ready for easy deployment to heroku.
+ 

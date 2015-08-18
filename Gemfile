@@ -19,6 +19,8 @@ gem 'autoprefixer-rails'
 
 gem 'awesome_print'
 
+gem 'nokogiri'
+
 group :production, :acceptance do
   gem 'rack-timeout'
   gem 'rails_stdout_logging'
@@ -56,4 +58,5 @@ group :development do
   gem 'guard-livereload'
   gem 'rb-fsevent'
   gem 'growl'
+  gem 'pry-byebug'
 end

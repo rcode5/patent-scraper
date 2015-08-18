@@ -1,0 +1,9 @@
+h2 Links
+table.table-condensed
+  thead
+    tr
+      th Link
+  tbody
+    - @links.each do |link|
+      tr
+        td.path = link_to link, link
