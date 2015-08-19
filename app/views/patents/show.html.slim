@@ -1,9 +1,16 @@
-h1 patent
-
 .section
-  h2 Data
-  pre
-    == @data.inspect
+  h2 Extracted Data
+  table.table-condensed
+    thead
+      tr
+        th key
+        th value
+    tbody
+      - @data.each do |k,v|
+        tr
+          td = k
+          td = v
+
 .section
   h2 Raw
   == @page
