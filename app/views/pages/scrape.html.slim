@@ -2,8 +2,12 @@ h2 Links
 table.table-condensed
   thead
     tr
+      th Scrape It
       th Link
   tbody
     - @links.each do |link|
       tr
+        td.scrape 
+          = link_to scrape_patents_path(url: link) do
+            i.glyphicon.glyphicon-star
         td.path = link_to link, link

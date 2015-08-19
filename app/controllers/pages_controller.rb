@@ -7,8 +7,16 @@ class PagesController < ApplicationController
     url = URI.parse(params[:url])
     domain = "#{url.scheme}://#{url.host}"
     page = Fetcher.fetch(url)
-    links = page.css("a").select{|link| link['href'] =~ /nph-Parser/}
+    links = page.css("a").select do |link|
+      begin
+        uri = URI.parse link['href']
+        uri.path =~ /^\/netacgi\/nph-Parser/
+      rescue URI::Error
+        nil
+      end
+    end
     
     @links = links.map{|l| File.join(domain, l['href']) }
   end
+
 end
