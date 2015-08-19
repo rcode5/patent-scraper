@@ -1,3 +1,11 @@
 @import 'bootstrap';
 @import '_navbar';
 @import '_footer';
+
+.page-container {
+  border: 1px solid #eee;
+}
+.table-container {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}

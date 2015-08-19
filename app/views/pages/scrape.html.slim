@@ -3,7 +3,10 @@ table.table-condensed
   thead
     tr
       th Link
+      th Scrape
   tbody
     - @links.each do |link|
       tr
         td.path = link_to link, link
+        td = link_to subscrape_path(url: link)
+          i.glyphicon.glyphicon-star-empty
