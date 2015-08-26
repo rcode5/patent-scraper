@@ -1,5 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe ScrapedPatent, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject(:patent) { build(:patent) }
+  describe 'parsed' do
+    it 'removes tags if you ask it to' do
+    end
+      
+  end
+  
 end

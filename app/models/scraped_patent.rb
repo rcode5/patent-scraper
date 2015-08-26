@@ -1,6 +1,13 @@
 class ScrapedPatent < ActiveRecord::Base
-  def parsed
+  def parsed(remove_tags:)
     @parsed ||=
-      Nokogiri::HTML.parse(body)
+      begin
+        doc = Nokogiri::HTML.parse(body)
+        if remove_tags.present?
+          remove_tags.each do |tag|
+            doc.search(".//#{tag}").remove
+          end
+        end
+      end
   end
 end

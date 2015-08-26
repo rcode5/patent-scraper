@@ -6,7 +6,7 @@ class PagesController < ApplicationController
   def scrape
     url = URI.parse(params[:url])
     domain = "#{url.scheme}://#{url.host}"
-    page = Fetcher.fetch(url)
+    page = Nokogiri::HTML(Fetcher.fetch(url))
     links = page.css("a").select do |link|
       begin
         uri = URI.parse link['href']
