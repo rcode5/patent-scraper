@@ -1,9 +1,20 @@
 class PatentScraperService
+
   attr_reader :page
   def initialize(patent_url)
-    @page = Fetcher.fetch(patent_url, remove_tags: ['hr', 'img', 'br', 'script'])
+    raw_page ||= fetch_via_url(patent_url)
+    @page = PatentPresenter.new(raw_page)
   end
 
+  def fetch_via_url(url)
+    patent = ScrapedPatent.find_by(url: url)
+    unless patent
+      page_data = Fetcher.fetch(url)
+      patent = ScrapedPatent.create_with(body: page_data).find_or_create_by(url: url)
+    end
+    patent
+  end
+  
   def data
     {
       title: title,
@@ -16,7 +27,7 @@ class PatentScraperService
     p = header.next_element
     p.text if p
   end
-  
+
   def title
     @title ||= @page.css('font[size="+1"]').first.try(:text).try(:strip)
   end
