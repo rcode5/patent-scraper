@@ -3,7 +3,8 @@ class PatentPresenter < ModelPresenter
   def data
     {
       title: title,
-      patent: patent
+      patent_number: patent_number,
+      patent_raw: patent,
     }.merge(headers).merge(parsed_tables)
   end
 
@@ -14,7 +15,9 @@ class PatentPresenter < ModelPresenter
   end
 
   def page
-    Nokogiri::HTML(body).search('.//img').remove
+    page = Nokogiri::HTML(body)
+    page.search('.//img|.//script').remove
+    page
   end
   
   def title
@@ -56,7 +59,14 @@ class PatentPresenter < ModelPresenter
   end
   
   def patent
-    @patent ||= rows(tables[2]).map{|row| cells(row).map{|r| r.text.strip}}
+    if (tables[2].present?)
+      @patent ||= rows(tables[2]).map{|row| cells(row).map{|r| r.text.strip}}.join(" ")
+    end
+  end
+
+  def patent_number
+    patent.to_s =~ /Patent\s([\d,]+)\s.*/
+    $1
   end
 
   def tables
