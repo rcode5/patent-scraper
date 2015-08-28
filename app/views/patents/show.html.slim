@@ -1,6 +1,6 @@
 .section
-  .js-export-csv.export-csv-button
-    a href="#" title="Download as CSV" data-title=(@patent.title.parameterize + ".csv")
+  .js-export-csv.export-csv-button data-patent-url=@patent.url
+    a href="#" title="Download as CSV"
       i.ion-ios-download-outline
   h2 Extracted Data
   table.table-condensed

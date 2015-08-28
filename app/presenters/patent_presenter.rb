@@ -8,6 +8,10 @@ class PatentPresenter < ModelPresenter
     }.merge(headers).merge(parsed_tables)
   end
 
+  def filename
+    title.preseent? ? (title.parameterize + ".csv") : "patent-without-title.csv"
+  end
+  
   def text_with_header(header)
     # find paragraph following header
     p = header.next_element
