@@ -1,6 +1,6 @@
 class PatentScraperService
 
-  def self.find(url)
+  def self.find_or_create(url)
     patent = ScrapedPatent.find_by(url: url)
     unless patent
       page_data = Fetcher.fetch(url)
@@ -8,6 +8,10 @@ class PatentScraperService
     end
     PatentPresenter.new(patent)
   end
-  
+
+  def self.find(url)
+    patent = ScrapedPatent.find_by(url: url)
+    PatentPresenter.new(patent) if patent
+  end
 
 end

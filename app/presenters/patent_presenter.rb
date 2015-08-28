@@ -9,7 +9,7 @@ class PatentPresenter < ModelPresenter
   end
 
   def filename
-    title.preseent? ? (title.parameterize + ".csv") : "patent-without-title.csv"
+    title.present? ? (title.parameterize + ".csv") : "patent-without-title.csv"
   end
   
   def text_with_header(header)

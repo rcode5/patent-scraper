@@ -5,7 +5,7 @@
 @import '_navbar';
 @import '_footer';
 
-[class^=ion-ios] {
+[class^=ion-] {
   font-size: 36px;
 }
 
@@ -16,3 +16,10 @@
     bottom: 10px;
   }
 }
+
+.actions {
+  a + a {
+    margin-left: 12px;
+  }
+}
+   
