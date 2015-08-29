@@ -15,7 +15,7 @@ table.table-condensed
       th Title
       th 
   tbody
-    - @query.links[0..6].each do |link|
+    - @query.links.each do |link|
       - patent = PatentScraperService.find(link)
       tr
         td.scrape 
