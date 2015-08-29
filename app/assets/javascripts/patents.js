@@ -6,6 +6,24 @@ onPageReady( function() {
     location.href = newPath
   });
 
+  function processFile(link, cb) {
+    cb(null, 'done with ' + link)
+  }
+  if (typeof queue == 'undefined') {
+    console.log("Queue is not available on this page")
+    return;
+  }
+  var q = queue(1)
+  $('.unprocessed').each(function() {
+    var row = $(this).closest('tr');
+    var link = row.find(".scrape a").attr('href')
+    if (link)
+      q.defer(processFile, link)
+  })
+  q.awaitAll(function(error, results) {
+    console.log('done', error, results)
+  });
 
-  $('.unprocessed')
+  
 });
+             
