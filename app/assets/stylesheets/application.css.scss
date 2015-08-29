@@ -1,3 +1,28 @@
+/*
+  = require ionicons
+*/
 @import 'bootstrap';
 @import '_navbar';
 @import '_footer';
+
+[class^=ion-] {
+  font-size: 36px;
+}
+
+#patents {
+  .export-csv-button {
+    float:right;
+    position: relative;
+    bottom: 10px;
+  }
+}
+
+.actions {
+  a + a {
+    margin-left: 12px;
+  }
+}
+
+.unprocessed {
+  color: lighten($gray,40);
+}

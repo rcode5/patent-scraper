@@ -1,0 +1,2 @@
+class PatentQueryPresenter < ModelPresenter
+end

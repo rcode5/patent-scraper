@@ -21,6 +21,11 @@ gem 'awesome_print'
 
 gem 'nokogiri'
 
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-ionicons'
+end
+
 group :production, :acceptance do
   gem 'rack-timeout'
   gem 'rails_stdout_logging'
