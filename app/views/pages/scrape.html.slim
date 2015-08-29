@@ -11,9 +11,9 @@ table.table-condensed
   thead
     tr
       th 
-      th #
+      th Patent No.
       th Title
-      th Source
+      th 
   tbody
     - @query.links[0..6].each do |link|
       - patent = PatentScraperService.find(link)
@@ -26,7 +26,7 @@ table.table-condensed
             = link_to patents_path(url: link), title: "Process and View" do
               i.ion-ios-refresh-outline
         td.patent-number
-          = patent.try(:patent_number)
+          = (patent && patent.patent_number)
         td.title(class=('unprocessed' unless patent && patent.title.present?))
           = (patent && patent.title) || '... not yet processed ...'
         td.src

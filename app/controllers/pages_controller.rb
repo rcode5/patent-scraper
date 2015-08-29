@@ -27,7 +27,7 @@ class PagesController < ApplicationController
   def process_params
     {
       url: url_param,
-      force_update: params[:force_update].present?
+      force_update: params[:force_update] == 'on'
     }
   end
 
