@@ -25,7 +25,10 @@ class PatentPresenter < ModelPresenter
   end
   
   def title
-    @title ||= page.css('font[size="+1"]').first.try(:text).try(:strip)
+    @title ||= begin
+                 t = page.css('font[size="+1"]').first.try(:text).try(:strip)
+                 t.present? ? t : 'Unavailable'
+               end
   end
 
   def parsed_tables

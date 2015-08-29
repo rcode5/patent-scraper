@@ -27,8 +27,8 @@ table.table-condensed
               i.ion-ios-refresh-outline
         td.patent-number
           = (patent && patent.patent_number)
-        td.title(class=('unprocessed' unless patent && patent.title.present?))
-          = (patent && patent.title) || '... not yet processed ...'
+        td.title(class=('unprocessed' unless patent))
+          = patent ? patent.title : '... unprocessed ...'
         td.src
           = link_to link, title: 'Original Page'
             i.ion-paperclip
