@@ -5,6 +5,8 @@ class PatentPresenter < ModelPresenter
       title: title,
       patent_number: patent_number,
       patent_raw: patent,
+      primary_examiner: primary_examiner,
+      assistant_examiner: assistant_examiner
     }.merge(headers).merge(parsed_tables)
   end
 
@@ -19,11 +21,24 @@ class PatentPresenter < ModelPresenter
   end
 
   def page
-    page = Nokogiri::HTML(body)
-    page.search('.//img|.//script').remove
-    page
+    @page ||=
+      begin
+        page = Nokogiri::HTML(body)
+        page.search('.//img|.//script').remove
+        page
+      end
   end
-  
+
+  def primary_examiner
+    /Primary Examiner:(.*)\s/ =~ page.text
+    $1.to_s.strip
+  end
+
+  def assistant_examiner
+    /Assistant Examiner:(.*)/ =~ page.text
+    $1.to_s.strip
+  end
+
   def title
     @title ||= begin
                  t = page.css('font[size="+1"]').first.try(:text).try(:strip)
