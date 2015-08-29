@@ -7,8 +7,15 @@ onPageReady( function() {
   });
 
   function processFile(link, cb) {
-    cb(null, 'done with ' + link)
+    $.ajax({
+      url: link
+    }).success(function(data){
+      cb(null, link)
+    }).error(function(data) {
+      cb("Failed to process")
+    })
   }
+  
   if (typeof queue == 'undefined') {
     console.log("Queue is not available on this page")
     return;
