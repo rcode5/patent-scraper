@@ -11,10 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150826064904) do
+ActiveRecord::Schema.define(version: 20150829022902) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "patent_queries", force: :cascade do |t|
+    t.string   "url"
+    t.text     "links"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "scraped_patents", force: :cascade do |t|
     t.string   "url"

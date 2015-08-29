@@ -4,9 +4,12 @@ class PagesController < ApplicationController
   end
 
   def scrape
-    (redirect_to(root_path, alert: 'You need to specify an starting query url') and return) unless url_param.present?
-    url = url_param
-                                                                                           
+    opts = process_params
+    url = opts[:url]
+    force_update = opts[:force_update]
+
+    (redirect_to(root_path, alert: 'You need to specify an starting query url') and return) unless url.present?
+
     domain = "#{url.scheme}://#{url.host}"
     page = Nokogiri::HTML(Fetcher.fetch(url))
     links = page.css("a").select do |link|
@@ -16,15 +19,28 @@ class PagesController < ApplicationController
       rescue URI::Error
         nil
       end
-    end
-    
-    @links = links.map{|l| File.join(domain, l['href']) }.uniq
+    end.map{|l| File.join(domain, l['href']) }.uniq
+    @query = PatentQueryService.find_or_create(url, links, force_update)
+  end
+
+  private
+  def process_params
+    {
+      url: url_param,
+      force_update: params[:force_update].present?
+    }
   end
 
   def url_param
     url = params[:url]
     if url.present?
-      URI.parse(url)
+      begin
+        URI.parse(url)
+      rescue URI::Error
+        nil
+      end
     end
   end
+    
+
 end

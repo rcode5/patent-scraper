@@ -5,4 +5,7 @@ onPageReady( function() {
     var newPath = "/patents.csv?url=" + encodeURI(url);
     location.href = newPath
   });
+
+
+  $('.unprocessed')
 });

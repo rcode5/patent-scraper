@@ -1,3 +1,5 @@
+- content_for :extra_javascript
+  = javascript_include_tag '//d3js.org/queue.v1.min.js'
 h2 
   | Links
   .pull-right.actions
@@ -13,7 +15,7 @@ table.table-condensed
       th Title
       th Source
   tbody
-    - @links[0..6].each do |link|
+    - @query.links[0..6].each do |link|
       - patent = PatentScraperService.find(link)
       tr
         td.scrape 

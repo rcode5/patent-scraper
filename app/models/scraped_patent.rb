@@ -1,4 +1,7 @@
 class ScrapedPatent < ActiveRecord::Base
+
+  validates :url, uniqueness: true
+  
   def parsed(remove_tags:)
     @parsed ||=
       begin
