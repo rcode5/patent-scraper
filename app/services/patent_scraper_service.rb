@@ -14,4 +14,8 @@ class PatentScraperService
     PatentPresenter.new(patent) if patent
   end
 
+  def self.where(opts)
+    ScrapedPatent.where(opts).map{|p| PatentPresenter.new(patent)}
+  end
+
 end

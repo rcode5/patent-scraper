@@ -1,5 +1,9 @@
 class PatentPresenter < ModelPresenter
 
+  def to_json(options)
+    data.to_json
+  end
+  
   def data
     {
       title: title,

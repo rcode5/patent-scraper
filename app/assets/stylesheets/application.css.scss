@@ -23,6 +23,14 @@
   }
 }
 
+/* root */
+.past-queries {
+  [class^=ion-] {
+    font-size: 18px;
+  }
+}
+/* patent_query */
 .unprocessed {
   color: lighten($gray,40);
 }
+

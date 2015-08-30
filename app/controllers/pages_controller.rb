@@ -1,11 +1,13 @@
 class PagesController < ApplicationController
 
   def root
+    @patent_queries = PatentQuery.all.map{|pq| PatentQueryPresenter.new(pq)}
   end
 
   def scrape
     opts = process_params
     url = opts[:url]
+    name = opts[:name].presence || Time.zone.now.strftime("%e %B, %Y %H:%M %P %Z")
     force_update = opts[:force_update]
 
     (redirect_to(root_path, alert: 'You need to specify an starting query url') and return) unless url.present?
@@ -20,7 +22,8 @@ class PagesController < ApplicationController
         nil
       end
     end.map{|l| File.join(domain, l['href']) }.uniq
-    @query = PatentQueryService.find_or_create(url, links, force_update)
+    @query = PatentQueryService.find_or_create({name: name, url: url.to_s, links: links}, force_update)
+    redirect_to patent_query_path(@query)
   end
 
   private

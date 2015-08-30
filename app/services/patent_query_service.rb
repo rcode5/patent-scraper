@@ -1,12 +1,12 @@
 class PatentQueryService
 
-  def self.find_or_create(url, links, force_update = false)
-    url = url.to_s
-    query = PatentQuery.find_by(url: url)
+  def self.find_or_create(params, force_update = false)
+    params.symbolize_keys!
+    query = PatentQuery.find_by(params.slice :url)
     if !query
-      query = PatentQuery.create(url: url, links: links)
+      query = PatentQuery.create(params)
     elsif force_update
-      query.update_attributes!(links: links)
+      query.update_attributes!(params.slice(:name, :links))
     end
     PatentQueryPresenter.new(query)
   end

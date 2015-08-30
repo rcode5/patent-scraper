@@ -1,7 +1,7 @@
 - content_for :extra_javascript
   = javascript_include_tag '//d3js.org/queue.v1.min.js'
 h2 
-  | Links
+  | Links for #{@patent_query.name}
   .pull-right.actions
     a.js-start-scraping title="Process all patents"
       i.ion-ios-refresh-outline
@@ -15,15 +15,16 @@ table.table-condensed
       th Title
       th 
   tbody
-    - @query.links.each do |link|
+    - @patent_query.links.each do |link|
       - patent = PatentScraperService.find(link)
       tr
         td.scrape 
           - if patent
-            = link_to patents_path(url: link), title: "View" do
+            = link_to patent_path(patent), title: "View" do
               i.ion-ios-checkmark-outline
           - else                           
-            = link_to patents_path(url: link), title: "Process and View" do
+            .js-processing-link data-link=patents_path(url: link, format: :json) style="display:none;"
+            = link_to patents_path(url: link), method: :post, title: "Process" do
               i.ion-ios-refresh-outline
         td.patent-number
           = (patent && patent.patent_number)
