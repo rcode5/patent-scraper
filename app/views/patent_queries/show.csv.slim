@@ -1,0 +1,5 @@
+- patents = @patent_query.patents
+== CSV.generate_line patents.first.data.keys
+- patents.each do |patent|
+  == CSV.generate_line patent.data.values
+

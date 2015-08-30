@@ -7,6 +7,12 @@ class PatentQueriesController < ApplicationController
 
   def show
     @patent_query = PatentQueryPresenter.new(@patent_query)
+    respond_to do |format|
+      format.html {}
+      format.csv {
+        (redirect_to patent_query_path(@patent_query), notice: "You must have processed patents before you can download anything" and return) if @patent_query.patents.empty?
+      }
+    end
   end
 
   def destroy

@@ -68,7 +68,9 @@ class PatentPresenter < ModelPresenter
               if (th.count == 1) && (td.count == 1)
                 key = th.text
                 val = td.text
-                parsed_table_data[key] = val if key.present? && val.present?
+                if val.present? && key.present?
+                  parsed_table_data[key] = val.gsub(/\s+/, ' ').gsub(/[\n\r]/, ' ')
+                end
               end
             end
           end

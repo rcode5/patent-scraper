@@ -4,4 +4,7 @@ class PatentQueryPresenter < ModelPresenter
     super || "blank"
   end
 
+  def patents
+    @patents ||= PatentScraperService.where(url: links)
+  end
 end

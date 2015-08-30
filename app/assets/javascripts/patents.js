@@ -6,6 +6,12 @@ onPageReady( function() {
     location.href = newPath;
   });
 
+  $('.js-export-all-csv').on('click', function() {
+    var url = location.pathname + ".csv"
+    location.href = url;
+  });
+
+
   function linkForProcessed(data) {
     return $("<a>", {href: data.show_path, title: "View"}).html($('<i>', {class: 'ion-ios-checkmark-outline'}));
   }
