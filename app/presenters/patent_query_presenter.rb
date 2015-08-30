@@ -4,6 +4,10 @@ class PatentQueryPresenter < ModelPresenter
     super || "blank"
   end
 
+  def filename
+    "patents-#{name.parameterize}.csv"
+  end
+
   def patents
     @patents ||= PatentScraperService.where(url: links)
   end

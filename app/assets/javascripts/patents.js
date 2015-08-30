@@ -1,12 +1,6 @@
 onPageReady( function() {
 
-  $('.js-export-csv').on('click', function() {
-    var url = $(this).data('patentUrl');
-    var newPath = "/patents.csv?url=" + encodeURI(url);
-    location.href = newPath;
-  });
-
-  $('.js-export-all-csv').on('click', function() {
+  $('.js-export-all-csv, .js-export-csv').on('click', function() {
     var url = location.pathname + ".csv"
     location.href = url;
   });

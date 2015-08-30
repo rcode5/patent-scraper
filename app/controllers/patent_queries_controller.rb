@@ -11,6 +11,8 @@ class PatentQueriesController < ApplicationController
       format.html {}
       format.csv {
         (redirect_to patent_query_path(@patent_query), notice: "You must have processed patents before you can download anything" and return) if @patent_query.patents.empty?
+        headers['Content-Disposition'] = "attachment; filename=\"#{@patent_query.filename}\""
+        headers['Content-Type'] ||= 'text/csv'
       }
     end
   end
