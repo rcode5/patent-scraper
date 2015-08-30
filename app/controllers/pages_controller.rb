@@ -4,6 +4,22 @@ class PagesController < ApplicationController
     @patent_queries = PatentQuery.all.map{|pq| PatentQueryPresenter.new(pq)}
   end
 
+  def query
+    results_page = UsptoQueryService.query(query_params)
+    url = "local:#{query_params.to_json}"
+    page, links = PatentQueryService.process_query_results_page(results_page)
+    terms = [ 
+      [ query_params["TERM1"].presence, query_params["FIELD1"].presence ],
+      [ query_params["TERM2"].presence, query_params["FIELD2"].presence ],
+    ]
+    name = terms.map do |items|
+      "#{items.first} in #{items.last}" if items.all?
+      "#{items.first} anywhere" if items.first
+    end.compact.join " and "
+    @query = PatentQueryService.find_or_create({name: name, url: url, links: links})
+    redirect_to patent_query_path(@query)
+  end
+  
   def scrape
     opts = process_params
     url = opts[:url]
@@ -13,15 +29,8 @@ class PagesController < ApplicationController
     (redirect_to(root_path, alert: 'You need to specify an starting query url') and return) unless url.present?
 
     domain = "#{url.scheme}://#{url.host}"
-    page = Nokogiri::HTML(Fetcher.fetch(url))
-    links = page.css("a").select do |link|
-      begin
-        uri = URI.parse link['href']
-        uri.path =~ /^\/netacgi\/nph-Parser/
-      rescue URI::Error
-        nil
-      end
-    end.map{|l| File.join(domain, l['href']) }.uniq
+    puts "domain",domain
+    page, links = PatentQueryService.process_query_results_page(Fetcher.fetch(url), domain)
     @query = PatentQueryService.find_or_create({name: name, url: url.to_s, links: links}, force_update)
     redirect_to patent_query_path(@query)
   end
@@ -44,6 +53,9 @@ class PagesController < ApplicationController
       end
     end
   end
-    
+
+  def query_params
+    params.slice("TERM1", "TERM2", "FIELD1", "FIELD2")
+  end
 
 end
