@@ -1,6 +1,9 @@
 .row
-  .col-xs-10.col-xs-offset-1.col-md-6.col-xs-offset-3
+  .col-xs-10.col-xs-offset-1.col-md-6.col-md-offset-3
     = form_tag "/scrape" do
+      .form-group
+        label.control-label for="name" Name
+        input.form-control name="name" 
       .form-group
         label.control-label for="url" URL
         input.form-control name="url" value="http://patft.uspto.gov/netacgi/nph-Parser?Sect1=PTO2&Sect2=HITOFF&p=1&u=%2Fnetahtml%2FPTO%2Fsearch-bool.html&r=0&f=S&l=50&TERM1=symyx&FIELD1=ASNM&co1=AND&TERM2=&FIELD2=&d=PTXT"
@@ -11,5 +14,20 @@
 
       .actions
         input type="submit" class="btn btn-primary"
-
+  .col-xs-10.col-xs-offset-1.col-md-6.col-md-offset-3
+    h3 Past Queries
+    table.table.table-condensed.sortable.past-queries
+      thead
+        th Name
+        th
+      tbody
+        - @patent_queries.each do |query|
+          tr
+            td = query.name
+            td.actions
+              = link_to patent_query_path(query), title: "Fetch"
+                i.ion-ios-checkmark-outline
+              = link_to patent_query_path(query), method: :delete, title: "Remove", data: { confirm: "Are you sure you want to remove this query?   The patents associated with it that we may have collected will not be lost." }
+                i.ion-backspace-outline
+              
  
