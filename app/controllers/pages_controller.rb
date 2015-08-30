@@ -4,6 +4,10 @@ class PagesController < ApplicationController
     @patent_queries = PatentQuery.all.map{|pq| PatentQueryPresenter.new(pq)}
   end
 
+  def query
+    render json: params.to_json
+  end
+  
   def scrape
     opts = process_params
     url = opts[:url]
