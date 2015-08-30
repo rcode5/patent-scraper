@@ -19,6 +19,7 @@ gem 'autoprefixer-rails'
 
 gem 'awesome_print'
 
+gem 'httparty'
 gem 'nokogiri'
 
 

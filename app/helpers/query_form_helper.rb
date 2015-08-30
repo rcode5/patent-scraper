@@ -67,7 +67,7 @@ module QueryFormHelper
 
   def field_selector(label:, id:, name:, selected: nil)
 
-    options = [content_tag(:option, "All", value: nil)]
+    options = [content_tag(:option, "All", value: '')]
     options << FIELD_MAP.map do |value, display|
       opts = { value: value }
       content_tag :option, display, opts
