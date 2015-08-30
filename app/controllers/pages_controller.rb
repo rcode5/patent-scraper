@@ -8,7 +8,15 @@ class PagesController < ApplicationController
     results_page = UsptoQueryService.query(query_params)
     url = "local:#{query_params.to_json}"
     page, links = PatentQueryService.process_query_results_page(results_page)
-    @query = PatentQueryService.find_or_create({url: url, links: links})
+    terms = [ 
+      [ query_params["TERM1"].presence, query_params["FIELD1"].presence ],
+      [ query_params["TERM2"].presence, query_params["FIELD2"].presence ],
+    ]
+    name = terms.map do |items|
+      "#{items.first} in #{items.last}" if items.all?
+      "#{items.first} anywhere" if items.first
+    end.compact.join " and "
+    @query = PatentQueryService.find_or_create({name: name, url: url, links: links})
     redirect_to patent_query_path(@query)
   end
   
