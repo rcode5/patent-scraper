@@ -11,7 +11,7 @@ class PatentScraperService
 
   def self.find(url)
     patent = ScrapedPatent.find_by(url: url)
-    PatentPresenter.new(patent) if patent
+    PatentPresenter.new(patent)
   end
 
   def self.where(opts)

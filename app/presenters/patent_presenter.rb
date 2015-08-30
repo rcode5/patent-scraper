@@ -1,7 +1,13 @@
 class PatentPresenter < ModelPresenter
 
+  def processed?
+    !@model.nil?
+  end
+
   def to_json(options)
-    data.to_json
+    {id: @model.id,
+     show_path: url_helpers.patent_path(@model)
+    }.merge(data).to_json
   end
   
   def data
@@ -15,7 +21,7 @@ class PatentPresenter < ModelPresenter
   end
 
   def filename
-    title.present? ? (title.parameterize + ".csv") : "patent-without-title.csv"
+    processed? ? (title.parameterize + ".csv") : "patent-without-title.csv"
   end
   
   def text_with_header(header)
@@ -45,6 +51,7 @@ class PatentPresenter < ModelPresenter
 
   def title
     @title ||= begin
+                 return "... unprocessed ..." unless processed?
                  t = page.css('font[size="+1"]').first.try(:text).try(:strip)
                  t.present? ? t : 'Unavailable'
                end

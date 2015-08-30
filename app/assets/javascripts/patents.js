@@ -3,21 +3,41 @@ onPageReady( function() {
   $('.js-export-csv').on('click', function() {
     var url = $(this).data('patentUrl');
     var newPath = "/patents.csv?url=" + encodeURI(url);
-    location.href = newPath
+    location.href = newPath;
   });
 
+  function linkForProcessed(data) {
+    return $("<a>", {href: data.show_path, title: "View"}).html($('<i>', {class: 'ion-ios-checkmark-outline'}));
+  }
+  
+  function setRowProcessed(data, row) {
+    var anchor = linkForProcessed(data)
+    $(row).find('.js-processing-link').remove();
+    $(row).find('a[title="Process"]').after(anchor).remove();
+    $(row).find('.title').removeClass('unprocessed').html(data.title)
+    $(row).find('.patent-number').html(data.patent_number);
+    $(row).removeClass('processing');
+  }
+
+  function setRowProcessing(row) {
+    $(row).addClass('processing');
+  }
+
+  function setRowError(data, row) {
+    $(row).addClass('error').removeClass('processing');
+    $(row).find('.title').removeClass('unprocessed').html('Failed to process...')
+  }
+  
   function processFile(link, row, cb) {
+    setRowProcessing(row);
     $.ajax({
       url: link,
       method: "POST"
     }).success(function(data){
-      console.log("Success", data);
-      // replace .processing-link with link to /patents/{data.patent.id]
-      // ion-iso-checkmark-outline
-      // replace title and patent number
-      // cb(null, link)
+      setRowProcessed(data, row)
+      cb(null, link)
     }).error(function(data) {
-      console.log(row)
+      setRowError(data, row)
       cb("Failed to process")
     })
   }

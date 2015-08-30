@@ -19,7 +19,7 @@ table.table-condensed
       - patent = PatentScraperService.find(link)
       tr
         td.scrape 
-          - if patent
+          - if patent.processed?
             = link_to patent_path(patent), title: "View" do
               i.ion-ios-checkmark-outline
           - else                           
@@ -27,9 +27,9 @@ table.table-condensed
             = link_to patents_path(url: link), method: :post, title: "Process" do
               i.ion-ios-refresh-outline
         td.patent-number
-          = (patent && patent.patent_number)
-        td.title(class=('unprocessed' unless patent))
-          = patent ? patent.title : '... unprocessed ...'
+          = patent.patent_number if patent.processed?
+        td.title(class=('unprocessed' unless patent.processed?))
+          = patent.title
         td.src
           = link_to link, title: 'Original Page'
             i.ion-paperclip
