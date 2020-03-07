@@ -40,4 +40,5 @@ html
       .container
         p &copy; #{Date.current.year} All rights reserved.
 
-  = content_for :extra_javascript
+  = javascript_include_tag '//unpkg.com/ionicons@5.0.0/dist/ionicons.js'
+  = javascript_include_tag '//d3js.org/queue.v1.min.js'

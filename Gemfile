@@ -1,31 +1,24 @@
 source 'https://rubygems.org'
 
 # Heroku uses the ruby version to configure your application's runtime.
-ruby '2.2.2'
+ruby '2.6.5'
 
+gem 'autoprefixer-rails'
+gem 'awesome_print'
+gem 'bootsnap'
+gem 'bootstrap-sass'
+gem 'coffee-rails', '~> 4.x'
+gem 'httparty'
+gem 'jquery-rails'
+gem 'nokogiri'
+gem 'pg'
 gem 'puma'
 gem 'rack-canonical-host'
-gem 'rails', '~> 4.2.3'
-gem 'pg'
-
-gem 'slim-rails'
-gem 'sass-rails'
-gem 'bootstrap-sass'
-gem 'jquery-rails'
-gem 'coffee-rails'
+gem 'rails', '~> 5.2.4'
+gem 'sassc-rails'
 gem 'simple_form'
+gem 'slim-rails'
 gem 'uglifier'
-gem 'autoprefixer-rails'
-
-gem 'awesome_print'
-
-gem 'httparty'
-gem 'nokogiri'
-
-
-source 'https://rails-assets.org' do
-  gem 'rails-assets-ionicons'
-end
 
 group :production, :acceptance do
   gem 'rack-timeout'
@@ -45,24 +38,24 @@ end
 
 group :test, :development do
   gem 'rspec-rails'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'jasmine-rails'
   #gem 'cane'
   #gem 'morecane'
 end
 
 group :development do
-  gem 'spring'
-  gem 'spring-commands-rspec'
-  gem 'foreman'
-  gem 'launchy'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'quiet_assets'
-  gem 'guard', '~> 2'
-  gem 'guard-rspec'
-  gem 'guard-livereload'
-  gem 'rb-fsevent'
+  gem 'foreman'
   gem 'growl'
+  gem 'launchy'
+  gem 'listen'
   gem 'pry-byebug'
+  gem 'rb-fsevent'
+  gem 'rubocop'
+  gem 'rubocop-performance'
+  gem 'rubocop-rails'
+  gem 'spring'
+  gem 'spring-commands-rspec'
 end
