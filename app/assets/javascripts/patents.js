@@ -7,7 +7,7 @@ onPageReady( function() {
 
 
   function linkForProcessed(data) {
-    return $("<a>", {href: data.show_path, title: "View"}).html($('<i>', {class: 'ion-ios-checkmark-outline'}));
+    return $("<a>", {href: data.show_path, title: "View"}).html($('<ion-icon name="checkmark-outline" />'))
   }
   
   function setRowProcessed(data, row) {
@@ -48,6 +48,7 @@ onPageReady( function() {
   }
 
   $(".js-start-scraping").on('click', function() {
+    console.log("Start")
     var q = queue(1)
     $(".js-processing-link").each(function() {
       var row = $(this).closest('tr');

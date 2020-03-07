@@ -3,10 +3,10 @@
 h2 
   | Links for #{@patent_query.name}
   .pull-right.actions
-    a.js-start-scraping title="Process all patents"
-      i.ion-ios-refresh-outline
-    a.js-export-all-csv title="Download CSV of all fetched patents"
-      i.ion-ios-download-outline
+    a.js-start-scraping title="Process all patents" href="#"
+      ion-icon name="refresh-outline"
+    a.js-export-all-csv title="Download CSV of all fetched patents" href="#"
+      ion-icon name="download-outline"
 table.table-condensed
   thead
     tr
@@ -21,15 +21,15 @@ table.table-condensed
         td.scrape 
           - if patent.processed?
             = link_to patent_path(patent), title: "View" do
-              i.ion-ios-checkmark-outline
+              ion-icon name="checkmark-outline"
           - else                           
             .js-processing-link data-link=patents_path(url: link, format: :json) style="display:none;"
             = link_to patents_path(url: link), method: :post, title: "Process" do
-              i.ion-ios-refresh-outline
+              ion-icon name="refresh-outline"
         td.patent-number
           = patent.patent_number if patent.processed?
         td.title(class=('unprocessed' unless patent.processed?))
           = patent.title
         td.src
           = link_to link, title: 'Original Page'
-            i.ion-paperclip
+            ion-icon name="paperclip"
