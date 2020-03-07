@@ -1,0 +1,112 @@
+version: 2.1
+executors:
+  ruby_node_pg_redis:
+    docker:
+      - image: circleci/ruby:2.6.5-node-browsers
+        environment:
+          BUNDLE_JOBS: 4
+          BUNDLE_PATH: vendor/bundle
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          RAILS_ENV: test
+      - image: circleci/postgres:11.6-alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: patent_scraper_test
+          POSTGRES_PASSWORD: ""
+
+commands:
+  bundle_install:
+    steps:
+      # Bundle install dependencies and remove any unused gems
+      - run:
+          name: bundle install
+          command: |
+            gem install bundler
+            bundle check || bundle install
+            bundle exec bundle audit check --update
+
+  db_setup:
+    description: Set up database
+    steps:
+      - run:
+          name: Set up database
+          command: bundle exec rake db:setup
+  rspec:
+    description: Run RSpec tests
+    steps:
+      - run:
+          name: Run RSpec tests in parallel
+          command: |
+            circleci tests glob "spec/**/*_spec.rb" > /tmp/rspec_files
+
+            TEST_FILES=$(circleci tests split --split-by=timings --timings-type=filename < /tmp/rspec_files)
+
+            echo -e "Testing" $(echo $TEST_FILES | wc -w) "of" $(cat /tmp/rspec_files | wc -w) "files on this container.\n"
+
+            COVERAGE=1 bundle exec rspec --format progress \
+                              --format RspecJunitFormatter \
+                              --out ./test-results/rspec/results.xml -- \
+                              $TEST_FILES
+      # Save test results, so the the timings can be used in future parallel runs
+      - store_test_results:
+          path: ./test-results
+      # Save the test logs for debugging
+      - store_artifacts:
+          path: ./log/test.log
+          destination: test.log
+      # Save screenshots for debugging
+      - store_artifacts:
+          path: ./tmp/screenshots
+
+jobs:
+  build:
+    environment:
+      DISABLE_SPRING: true
+      RAILS_ENV: test
+      RACK_ENV: test
+      CI: true
+    executor: ruby_node_pg_redis
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - scraper-cache-{{ checksum "Gemfile.lock" }}
+            - scraper-cache-
+
+      - bundle_install
+      
+      - save_cache:
+          name: Save Cache
+          key: scraper-cache-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+            - ~/.cache/yarn
+
+      - db_setup
+      # Rubocop compliance
+      - run: bundle exec rubocop -P
+      - rspec
+
+      # Save test results, so the the timings can be used in future parallel runs
+      - store_test_results:
+          path: ./test-results
+
+      # Save the test logs for debugging
+      - store_artifacts:
+          path: ./log/test.log
+          destination: test.log
+
+      # Save screenshots for debugging
+      - store_artifacts:
+          path: ./tmp/screenshots
+
+      - store_artifacts:
+          path: ./coverage
+
+workflows:
+  version: 2.1
+  build:
+    jobs:
+      - build
