@@ -23,7 +23,6 @@ gem 'uglifier'
 group :production, :acceptance do
   gem 'rack-timeout'
   gem 'rails_stdout_logging'
-  gem 'heroku_rails_deflate'
 end
 
 group :test do
