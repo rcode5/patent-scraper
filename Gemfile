@@ -58,3 +58,5 @@ group :development do
   gem 'spring'
   gem 'spring-commands-rspec'
 end
+
+gem "bundle-audit", "~> 0.1.0"

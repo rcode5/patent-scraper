@@ -61,6 +61,10 @@ GEM
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
     builder (3.2.4)
+    bundle-audit (0.1.0)
+      bundler-audit
+    bundler-audit (0.3.0)
+      bundler (~> 1.2)
     byebug (11.1.1)
     capybara (3.31.0)
       addressable
@@ -286,6 +290,7 @@ DEPENDENCIES
   binding_of_caller
   bootsnap
   bootstrap-sass
+  bundle-audit (~> 0.1.0)
   capybara
   coffee-rails (~> 4.x)
   database_cleaner
