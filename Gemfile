@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Heroku uses the ruby version to configure your application's runtime.
-ruby '2.6.5'
+ruby '2.6.6'
 
 gem 'autoprefixer-rails'
 gem 'awesome_print'
