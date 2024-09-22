@@ -1,4 +1,4 @@
-class AddNameToPatentQuery < ActiveRecord::Migration
+class AddNameToPatentQuery < ActiveRecord::Migration[4.2]
   def change
     add_column :patent_queries, :name, :string
   end
