@@ -1,4 +1,4 @@
-class CreatePatentQueries < ActiveRecord::Migration
+class CreatePatentQueries < ActiveRecord::Migration[4.2]
   def change
     create_table :patent_queries do |t|
       t.string :url, unique: true

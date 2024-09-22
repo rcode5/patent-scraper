@@ -1,4 +1,4 @@
-class CreateScrapedPatents < ActiveRecord::Migration
+class CreateScrapedPatents < ActiveRecord::Migration[4.2]
   def change
     create_table :scraped_patents do |t|
       t.string :url, unique: true

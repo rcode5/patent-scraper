@@ -1,16 +1,16 @@
 source 'https://rubygems.org'
 
 # Heroku uses the ruby version to configure your application's runtime.
-ruby '2.6.5'
+ruby '2.7.8'
 
 gem 'autoprefixer-rails'
 gem 'awesome_print'
-gem 'bootsnap'
 gem 'bootstrap-sass'
 gem 'coffee-rails', '~> 4.x'
+gem 'ffi', '1.17.0'
 gem 'httparty'
+gem 'nokogiri', '1.11.7'
 gem 'jquery-rails'
-gem 'nokogiri'
 gem 'pg'
 gem 'puma'
 gem 'rack-canonical-host'
@@ -19,6 +19,8 @@ gem 'sassc-rails'
 gem 'simple_form'
 gem 'slim-rails'
 gem 'uglifier'
+
+gem 'mimemagic', git: 'https://github.com/mimemagicrb/mimemagic', ref: '01f92d86d15d85cfd0f20dabd025dcbd36a8a60f'
 
 group :production, :acceptance do
   gem 'rack-timeout'
@@ -55,6 +57,4 @@ group :development do
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
-  gem 'spring'
-  gem 'spring-commands-rspec'
 end
